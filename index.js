@@ -19,15 +19,20 @@ app.get("/", function (req, res) {
 });
 
 // your new API endpoint... 
-app.get("/api/:date", function (req, res) {
+app.get("/api/:date?", function (req, res) {
   let inputDate = req.params.date;
   let date;
 
-  // Check if the input is a UNIX timestamp or a date string
-  if (!isNaN(inputDate)) {
-    date = new Date(parseInt(inputDate));
+  // Check if the input is provided and not empty
+  if (!inputDate) {
+    date = new Date();
   } else {
-    date = new Date(inputDate);
+    // Check if the input is a UNIX timestamp or a date string
+    if (!isNaN(inputDate)) {
+      date = new Date(parseInt(inputDate));
+    } else {
+      date = new Date(inputDate);
+    }
   }
 
   // Check if the date is valid
